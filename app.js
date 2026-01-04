@@ -320,17 +320,17 @@ function speakSentence(word) {
     
     const utterance = new SpeechSynthesisUtterance(currentSentence);
     utterance.lang = 'en-US';
-    utterance.rate = 0.75; // Slightly slower, more gentle
-    utterance.pitch = 0.9; // Slightly lower pitch for mature voice
+    utterance.rate = 0.6; // Much slower, more gentle and warm
+    utterance.pitch = 0.85; // Lower pitch for mature, warm voice
     utterance.volume = 1.0;
     
     // Try to select a female voice that sounds mature/elderly
     const voices = synth.getVoices();
     if (voices.length > 0) {
-        // Look for female voices, preferring ones that sound mature
+        // Look for female voices, preferring ones that sound mature and warm
         const femaleVoices = voices.filter(voice => {
             const voiceName = voice.name.toLowerCase();
-            // Prefer voices that sound mature/female
+            // Prefer voices that sound mature/female/warm
             return voice.gender === 'female' || 
                    voiceName.includes('female') || 
                    voiceName.includes('samantha') ||
@@ -338,16 +338,22 @@ function speakSentence(word) {
                    voiceName.includes('susan') ||
                    voiceName.includes('victoria') ||
                    voiceName.includes('kate') ||
+                   voiceName.includes('samantha') ||
+                   voiceName.includes('moira') ||
+                   voiceName.includes('tessa') ||
                    (voice.lang.startsWith('en') && voiceName.includes('zira') === false);
         });
         
         if (femaleVoices.length > 0) {
-            // Prefer voices with lower pitch or mature-sounding names
-            const preferredVoice = femaleVoices.find(v => 
-                v.name.toLowerCase().includes('karen') ||
-                v.name.toLowerCase().includes('samantha') ||
-                v.name.toLowerCase().includes('susan')
-            ) || femaleVoices[0];
+            // Prefer voices with warm, mature-sounding names
+            const preferredVoice = femaleVoices.find(v => {
+                const name = v.name.toLowerCase();
+                return name.includes('karen') ||
+                       name.includes('samantha') ||
+                       name.includes('susan') ||
+                       name.includes('moira') ||
+                       name.includes('tessa');
+            }) || femaleVoices[0];
             
             utterance.voice = preferredVoice;
         }
@@ -365,17 +371,17 @@ function speakWord(word) {
     
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = 'en-US';
-    utterance.rate = 0.75; // Slightly slower, more gentle
-    utterance.pitch = 0.9; // Slightly lower pitch for mature voice
+    utterance.rate = 0.6; // Much slower, more gentle and warm
+    utterance.pitch = 0.85; // Lower pitch for mature, warm voice
     utterance.volume = 1.0;
     
     // Try to select a female voice that sounds mature/elderly
     const voices = synth.getVoices();
     if (voices.length > 0) {
-        // Look for female voices, preferring ones that sound mature
+        // Look for female voices, preferring ones that sound mature and warm
         const femaleVoices = voices.filter(voice => {
             const voiceName = voice.name.toLowerCase();
-            // Prefer voices that sound mature/female
+            // Prefer voices that sound mature/female/warm
             return voice.gender === 'female' || 
                    voiceName.includes('female') || 
                    voiceName.includes('samantha') ||
@@ -383,16 +389,22 @@ function speakWord(word) {
                    voiceName.includes('susan') ||
                    voiceName.includes('victoria') ||
                    voiceName.includes('kate') ||
+                   voiceName.includes('samantha') ||
+                   voiceName.includes('moira') ||
+                   voiceName.includes('tessa') ||
                    (voice.lang.startsWith('en') && voiceName.includes('zira') === false);
         });
         
         if (femaleVoices.length > 0) {
-            // Prefer voices with lower pitch or mature-sounding names
-            const preferredVoice = femaleVoices.find(v => 
-                v.name.toLowerCase().includes('karen') ||
-                v.name.toLowerCase().includes('samantha') ||
-                v.name.toLowerCase().includes('susan')
-            ) || femaleVoices[0];
+            // Prefer voices with warm, mature-sounding names
+            const preferredVoice = femaleVoices.find(v => {
+                const name = v.name.toLowerCase();
+                return name.includes('karen') ||
+                       name.includes('samantha') ||
+                       name.includes('susan') ||
+                       name.includes('moira') ||
+                       name.includes('tessa');
+            }) || femaleVoices[0];
             
             utterance.voice = preferredVoice;
         }
