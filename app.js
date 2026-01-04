@@ -80,8 +80,8 @@ function loadWord(index) {
     const word = wordObj.word;
     const difficulty = wordObj.difficulty;
     
-    // Update word display
-    document.getElementById('word-text').textContent = word;
+    // Update word display - obscure letters on front card
+    document.getElementById('word-text').textContent = obscureWord(word);
     
     // Update progress
     document.getElementById('current-word-number').textContent = index + 1;
@@ -240,7 +240,18 @@ function splitEvenly(word) {
     ];
 }
 
-// Speak the word
+// Obscure word for front card display
+function obscureWord(word) {
+    // Replace each letter with an underscore, keeping spaces between words if any
+    return word.split('').map(char => {
+        if (char === ' ' || char === '-') {
+            return char;
+        }
+        return '_';
+    }).join('');
+}
+
+// Speak the word with a kindly elderly female voice
 function speakWord(word) {
     if (!synth) return;
     
@@ -249,11 +260,47 @@ function speakWord(word) {
     
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = 'en-US';
-    utterance.rate = 0.8; // Slightly slower for clarity
-    utterance.pitch = 1.0;
+    utterance.rate = 0.75; // Slightly slower, more gentle
+    utterance.pitch = 0.9; // Slightly lower pitch for mature voice
     utterance.volume = 1.0;
     
+    // Try to select a female voice that sounds mature/elderly
+    const voices = synth.getVoices();
+    if (voices.length > 0) {
+        // Look for female voices, preferring ones that sound mature
+        const femaleVoices = voices.filter(voice => {
+            const voiceName = voice.name.toLowerCase();
+            // Prefer voices that sound mature/female
+            return voice.gender === 'female' || 
+                   voiceName.includes('female') || 
+                   voiceName.includes('samantha') ||
+                   voiceName.includes('karen') ||
+                   voiceName.includes('susan') ||
+                   voiceName.includes('victoria') ||
+                   voiceName.includes('kate') ||
+                   (voice.lang.startsWith('en') && voiceName.includes('zira') === false);
+        });
+        
+        if (femaleVoices.length > 0) {
+            // Prefer voices with lower pitch or mature-sounding names
+            const preferredVoice = femaleVoices.find(v => 
+                v.name.toLowerCase().includes('karen') ||
+                v.name.toLowerCase().includes('samantha') ||
+                v.name.toLowerCase().includes('susan')
+            ) || femaleVoices[0];
+            
+            utterance.voice = preferredVoice;
+        }
+    }
+    
     synth.speak(utterance);
+}
+
+// Load voices when available (some browsers need this)
+if (synth.onvoiceschanged !== undefined) {
+    synth.onvoiceschanged = () => {
+        // Voices loaded, ready to use
+    };
 }
 
 // Flip the card
