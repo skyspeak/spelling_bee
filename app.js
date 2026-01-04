@@ -83,6 +83,9 @@ function loadWord(index) {
     // Update word display - obscure letters on front card
     document.getElementById('word-text').textContent = obscureWord(word);
     
+    // Update example sentence with crossed out word
+    updateExampleSentence(word);
+    
     // Update progress
     document.getElementById('current-word-number').textContent = index + 1;
     document.getElementById('total-words').textContent = filteredWords.length;
@@ -249,6 +252,37 @@ function obscureWord(word) {
         }
         return '_';
     }).join('');
+}
+
+// Generate example sentence with the word
+function generateExampleSentence(word) {
+    // Simple sentence templates for first-grade friendly examples
+    const templates = [
+        `I can spell the word ${word}.`,
+        `The word ${word} is fun to learn.`,
+        `Can you spell ${word}?`,
+        `Let's practice spelling ${word}.`,
+        `The word ${word} has many letters.`,
+        `I know how to spell ${word}.`,
+        `Today we will learn ${word}.`,
+        `The spelling of ${word} is tricky.`
+    ];
+    
+    // Pick a random template
+    const template = templates[Math.floor(Math.random() * templates.length)];
+    return template;
+}
+
+// Update example sentence with crossed out word
+function updateExampleSentence(word) {
+    const sentenceElement = document.getElementById('example-sentence');
+    const sentence = generateExampleSentence(word);
+    
+    // Replace the word in the sentence with a crossed-out version
+    const crossedOutWord = `<span class="crossed-out-word">${word}</span>`;
+    const sentenceWithCrossedWord = sentence.replace(word, crossedOutWord);
+    
+    sentenceElement.innerHTML = sentenceWithCrossedWord;
 }
 
 // Speak the word with a kindly elderly female voice
