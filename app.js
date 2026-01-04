@@ -4,6 +4,7 @@ let allWords = [];
 let filteredWords = [];
 let currentDifficulty = 'all';
 let synth = window.speechSynthesis;
+let currentSentence = '';
 
 // Initialize the app
 function init() {
@@ -30,6 +31,11 @@ function init() {
     document.getElementById('play-button-back').addEventListener('click', () => {
         if (filteredWords[currentWordIndex]) {
             speakWord(filteredWords[currentWordIndex].word);
+        }
+    });
+    document.getElementById('play-sentence-button').addEventListener('click', () => {
+        if (filteredWords[currentWordIndex]) {
+            speakSentence(filteredWords[currentWordIndex].word);
         }
     });
     document.getElementById('flip-button').addEventListener('click', flipCard);
@@ -295,11 +301,59 @@ function updateExampleSentence(word) {
     const sentenceElement = document.getElementById('example-sentence');
     const sentence = generateExampleSentence(word);
     
+    // Store the sentence for playback
+    currentSentence = sentence;
+    
     // Replace the word in the sentence with asterisks
     const obscuredWord = '*'.repeat(word.length);
     const sentenceWithObscuredWord = sentence.replace(word, obscuredWord);
     
     sentenceElement.innerHTML = sentenceWithObscuredWord;
+}
+
+// Speak the full sentence
+function speakSentence(word) {
+    if (!synth || !currentSentence) return;
+    
+    // Cancel any ongoing speech
+    synth.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(currentSentence);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.75; // Slightly slower, more gentle
+    utterance.pitch = 0.9; // Slightly lower pitch for mature voice
+    utterance.volume = 1.0;
+    
+    // Try to select a female voice that sounds mature/elderly
+    const voices = synth.getVoices();
+    if (voices.length > 0) {
+        // Look for female voices, preferring ones that sound mature
+        const femaleVoices = voices.filter(voice => {
+            const voiceName = voice.name.toLowerCase();
+            // Prefer voices that sound mature/female
+            return voice.gender === 'female' || 
+                   voiceName.includes('female') || 
+                   voiceName.includes('samantha') ||
+                   voiceName.includes('karen') ||
+                   voiceName.includes('susan') ||
+                   voiceName.includes('victoria') ||
+                   voiceName.includes('kate') ||
+                   (voice.lang.startsWith('en') && voiceName.includes('zira') === false);
+        });
+        
+        if (femaleVoices.length > 0) {
+            // Prefer voices with lower pitch or mature-sounding names
+            const preferredVoice = femaleVoices.find(v => 
+                v.name.toLowerCase().includes('karen') ||
+                v.name.toLowerCase().includes('samantha') ||
+                v.name.toLowerCase().includes('susan')
+            ) || femaleVoices[0];
+            
+            utterance.voice = preferredVoice;
+        }
+    }
+    
+    synth.speak(utterance);
 }
 
 // Speak the word with a kindly elderly female voice
