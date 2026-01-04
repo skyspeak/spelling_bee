@@ -1,0 +1,23 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
+*.swp
+*~
+
+# Text files (keep only the essential ones)
+all_spelling_words.txt
+all_words.txt
+complete_words.txt
+word_list.txt
+words_easy.txt
+words_medium.txt
+words_hard.txt
+words.txt
+
+# PDF (large file, may want to exclude)
+# s.pdf
+

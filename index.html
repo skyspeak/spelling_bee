@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spelling Bee Flashcards</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐝 Spelling Bee Flashcards 🐝</h1>
+            <div class="difficulty-filter">
+                <label>Filter by difficulty:</label>
+                <select id="difficulty-filter">
+                    <option value="all">All Words</option>
+                    <option value="easy">Easy (One Bee)</option>
+                    <option value="medium">Medium (Two Bee)</option>
+                    <option value="hard">Hard (Three Bee)</option>
+                </select>
+            </div>
+            <div class="progress">
+                <span id="current-word-number">1</span> / <span id="total-words">0</span>
+                <span class="difficulty-badge" id="difficulty-badge"></span>
+            </div>
+        </header>
+
+        <div class="flashcard-container">
+            <div class="flashcard" id="flashcard">
+                <div class="card-front" id="card-front">
+                    <div class="word-display">
+                        <div class="difficulty-indicator" id="difficulty-indicator-front"></div>
+                        <h2 id="word-text">Loading...</h2>
+                    </div>
+                    <div class="controls">
+                        <button class="play-button" id="play-button" aria-label="Play pronunciation">
+                            🔊 Play
+                        </button>
+                        <button class="flip-button" id="flip-button">Flip Card</button>
+                    </div>
+                </div>
+                <div class="card-back" id="card-back">
+                    <div class="spelling-display">
+                        <div class="difficulty-indicator" id="difficulty-indicator-back"></div>
+                        <div class="word-spelling" id="word-spelling"></div>
+                        <div class="phonetics" id="phonetics"></div>
+                    </div>
+                    <div class="controls">
+                        <button class="play-button" id="play-button-back" aria-label="Play pronunciation">
+                            🔊 Play
+                        </button>
+                        <button class="flip-button" id="flip-button-back">Flip Card</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-button" id="prev-button">← Previous</button>
+            <button class="nav-button" id="next-button">Next →</button>
+        </div>
+
+        <div class="word-list-info">
+            <p>Words from Scripps National Spelling Bee Study Guide</p>
+        </div>
+    </div>
+
+    <script src="words.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
+
