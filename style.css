@@ -179,14 +179,6 @@ header h1 {
     font-style: italic;
 }
 
-.crossed-out-word {
-    text-decoration: line-through;
-    text-decoration-thickness: 3px;
-    text-decoration-color: #f44336;
-    color: #999;
-    font-weight: bold;
-    font-style: normal;
-}
 
 .spelling-display {
     text-align: center;

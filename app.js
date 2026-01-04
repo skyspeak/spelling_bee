@@ -254,18 +254,35 @@ function obscureWord(word) {
     }).join('');
 }
 
-// Generate example sentence with the word
+// Generate fun, engaging example sentence with the word
 function generateExampleSentence(word) {
-    // Simple sentence templates for first-grade friendly examples
+    // Fun, engaging sentences that first graders will enjoy
     const templates = [
-        `I can spell the word ${word}.`,
-        `The word ${word} is fun to learn.`,
-        `Can you spell ${word}?`,
-        `Let's practice spelling ${word}.`,
-        `The word ${word} has many letters.`,
-        `I know how to spell ${word}.`,
-        `Today we will learn ${word}.`,
-        `The spelling of ${word} is tricky.`
+        `My favorite word to spell is ${word}!`,
+        `I saw ${word} written on a sign today.`,
+        `Can you help me spell ${word}?`,
+        `The word ${word} makes me smile!`,
+        `I love learning how to spell ${word}.`,
+        `My teacher taught me the word ${word}.`,
+        `I found ${word} in my storybook!`,
+        `The spelling of ${word} is fun to learn!`,
+        `I want to spell ${word} perfectly!`,
+        `My friend knows how to spell ${word}.`,
+        `I practice spelling ${word} every day!`,
+        `The word ${word} is so interesting!`,
+        `I'm getting better at spelling ${word}!`,
+        `I can't wait to spell ${word} correctly!`,
+        `Spelling ${word} is like solving a puzzle!`,
+        `I'm learning to spell ${word} today!`,
+        `The word ${word} sounds cool!`,
+        `I'm going to master spelling ${word}!`,
+        `My mom helped me learn ${word}.`,
+        `I think ${word} is a great word!`,
+        `I'm excited to spell ${word}!`,
+        `The word ${word} is special to me!`,
+        `I'm working hard to spell ${word}!`,
+        `I love the word ${word}!`,
+        `Spelling ${word} makes me proud!`
     ];
     
     // Pick a random template
@@ -273,16 +290,16 @@ function generateExampleSentence(word) {
     return template;
 }
 
-// Update example sentence with crossed out word
+// Update example sentence with obscured word (asterisks)
 function updateExampleSentence(word) {
     const sentenceElement = document.getElementById('example-sentence');
     const sentence = generateExampleSentence(word);
     
-    // Replace the word in the sentence with a crossed-out version
-    const crossedOutWord = `<span class="crossed-out-word">${word}</span>`;
-    const sentenceWithCrossedWord = sentence.replace(word, crossedOutWord);
+    // Replace the word in the sentence with asterisks
+    const obscuredWord = '*'.repeat(word.length);
+    const sentenceWithObscuredWord = sentence.replace(word, obscuredWord);
     
-    sentenceElement.innerHTML = sentenceWithCrossedWord;
+    sentenceElement.innerHTML = sentenceWithObscuredWord;
 }
 
 // Speak the word with a kindly elderly female voice
