@@ -140,18 +140,32 @@ function updateDifficultyBadge(difficulty) {
     indicatorBack.className = 'difficulty-indicator ' + (difficultyClasses[difficulty] || '');
 }
 
+// Shuffle array function (Fisher-Yates algorithm)
+function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
 // Display spelling with phonetics
 function displaySpelling(word) {
     const wordSpelling = document.getElementById('word-spelling');
     const phonetics = document.getElementById('phonetics');
     
-    // Display word letter by letter with spacing for readability
-    wordSpelling.innerHTML = word.split('').map((letter, index) => {
+    // Randomize the order of letters
+    const letters = word.split('');
+    const shuffledLetters = shuffleArray(letters);
+    
+    // Display word letter by letter with spacing for readability (in random order)
+    wordSpelling.innerHTML = shuffledLetters.map((letter, index) => {
         const space = index > 0 && index % 4 === 0 ? '<span style="margin: 0 8px;"></span>' : '';
         return space + `<span class="phonetic-letter">${letter}</span>`;
     }).join('');
     
-    // Create phonetic breakdown
+    // Create phonetic breakdown (also randomized)
     const phoneticBreakdown = createPhonetics(word);
     phonetics.innerHTML = phoneticBreakdown;
 }
@@ -160,8 +174,14 @@ function displaySpelling(word) {
 function createPhonetics(word) {
     // Break word into chunks that are easier for first graders to follow
     const chunks = breakIntoChunks(word);
-    return chunks.map((chunk, index) => {
-        const letters = chunk.split('').map(letter => 
+    
+    // Randomize the order of chunks
+    const shuffledChunks = shuffleArray(chunks);
+    
+    return shuffledChunks.map((chunk, index) => {
+        // Also randomize letters within each chunk
+        const chunkLetters = shuffleArray(chunk.split(''));
+        const letters = chunkLetters.map(letter => 
             `<span class="phonetic-letter">${letter}</span>`
         ).join('');
         return `<span class="phonetic-syllable">${letters}</span>`;
