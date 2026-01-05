@@ -5,6 +5,7 @@ let filteredWords = [];
 let currentDifficulty = 'all';
 let synth = window.speechSynthesis;
 let currentSentence = '';
+let usedSentences = new Set(); // Track used sentences to avoid repeats
 
 // Initialize the app
 function init() {
@@ -262,7 +263,7 @@ function obscureWord(word) {
 
 // Generate fun, engaging example sentence with the word
 function generateExampleSentence(word) {
-    // Fun, engaging sentences that first graders will enjoy
+    // Fun, engaging sentences that first graders will enjoy - each unique and interesting
     const templates = [
         `My favorite word to spell is ${word}!`,
         `I saw ${word} written on a sign today.`,
@@ -288,11 +289,49 @@ function generateExampleSentence(word) {
         `The word ${word} is special to me!`,
         `I'm working hard to spell ${word}!`,
         `I love the word ${word}!`,
-        `Spelling ${word} makes me proud!`
+        `Spelling ${word} makes me proud!`,
+        `I discovered the word ${word} yesterday!`,
+        `The word ${word} is my new favorite!`,
+        `I'm practicing ${word} with my friends!`,
+        `My dad showed me how to spell ${word}!`,
+        `I'm going to teach my sister ${word}!`,
+        `The word ${word} is fun to say!`,
+        `I'm becoming a spelling champion with ${word}!`,
+        `I found ${word} in a book at the library!`,
+        `My grandma knows how to spell ${word}!`,
+        `I'm going to use ${word} in a story!`,
+        `The word ${word} makes me happy!`,
+        `I'm learning ${word} in school today!`,
+        `I can spell ${word} all by myself!`,
+        `The word ${word} is awesome!`,
+        `I'm going to spell ${word} for my teacher!`,
+        `I love the sound of ${word}!`,
+        `My pet's name reminds me of ${word}!`,
+        `I'm going to write ${word} in my journal!`,
+        `The word ${word} is magical!`,
+        `I'm going to spell ${word} perfectly!`,
+        `I found ${word} in my favorite game!`,
+        `The word ${word} is super cool!`,
+        `I'm going to share ${word} with my class!`,
+        `I'm excited to learn ${word}!`,
+        `The word ${word} is amazing!`
     ];
     
-    // Pick a random template
-    const template = templates[Math.floor(Math.random() * templates.length)];
+    // Filter out already used sentences
+    const availableTemplates = templates.filter(template => !usedSentences.has(template));
+    
+    // If all templates have been used, reset the set and start over
+    if (availableTemplates.length === 0) {
+        usedSentences.clear();
+        availableTemplates.push(...templates);
+    }
+    
+    // Pick a random template from available ones
+    const template = availableTemplates[Math.floor(Math.random() * availableTemplates.length)];
+    
+    // Mark this sentence as used
+    usedSentences.add(template);
+    
     return template;
 }
 
